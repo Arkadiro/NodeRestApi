@@ -1,0 +1,39 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  # web:
+  #   container_name: node
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./src:/www/src/
+  #   ports:
+  #     - "80:8080"
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_PASSWORD: tmp
+      MYSQL_ROOT_PASSWORD: tmp
+    volumes:
+      - ./conf/:/etc/mysql
+      - ./mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    restart: always
+    ports:
+      - 8081:80
+    volumes:
+      - /sessions
